@@ -1,0 +1,98 @@
+<script>
+    //*** Snake
+    var canvas='div1';
+    var moveobj='div2';
+    var movedir='right';
+    var movestep=10;
+    var movespeed=200;
+
+    var childLeft= 0;
+    var parentWidth= 0;
+    var childWidth=0;
+
+    var childTop= 0;
+    var parentHeight= 0;
+    var childHeight=0;    
+
+    document.onkeydown = checkKey;
+    
+    function btnMove_onclick(){
+        var moveint=setInterval(move,200);        
+    }
+    
+    function move (){        
+        childLeft= parseInt(document.getElementById(moveobj).style.left);
+        parentWidth= parseInt(document.getElementById(canvas).style.width);
+        childWidth= parseInt(document.getElementById(moveobj).style.width);
+
+        childTop= parseInt(document.getElementById(moveobj).style.top);
+        parentHeight= parseInt(document.getElementById(canvas).style.height);
+        childHeight= parseInt(document.getElementById(moveobj).style.height);
+        if (movedir=='right'){
+            //alert(childLeft);
+            if (childLeft< (parentWidth-childWidth))
+                document.getElementById(moveobj).style.left=childLeft + movestep +'px';
+            else {
+                clearInterval(moveint);
+                document.getElementById('lblResult').innerHTML= 'Error';
+            }                
+        }
+        if (movedir=='left'){
+            if (childLeft>0)
+                document.getElementById(moveobj).style.left=childLeft - movestep +'px';
+            else {
+                clearInterval(moveint);
+                document.getElementById('lblResult').innerHTML= 'Error';
+            }                
+        }
+
+        if (movedir=='bottom'){
+            if (childTop< (parentHeight-childHeight))
+                document.getElementById(moveobj).style.top=childTop + movestep +'px';
+            else {
+                clearInterval(moveint);
+                document.getElementById('lblResult').innerHTML= 'Error';
+            }                
+        }
+        if (movedir=='up'){
+            if (childTop>0)
+                document.getElementById(moveobj).style.top=childTop - movestep +'px';
+            else {
+                clearInterval(moveint);
+                document.getElementById('lblResult').innerHTML= 'Error';
+            }                
+        }
+
+        document.getElementById('lblResult').innerHTML= 'Child left= ' + document.getElementById('div2').style.left;
+        
+    }
+    function checkKey(e) {
+        e = e || window.event;
+        if (e.keyCode == 38) {
+            // up arrow
+            movedir='up';
+        }
+        else if (e.keyCode == 40) {
+            // down arrow
+            movedir='bottom';
+        }
+        else if (e.keyCode == 37) {
+            // left arrow
+            movedir='left';
+        }
+        else if (e.keyCode == 39) {
+            // right arrow            
+            movedir='right';            
+        }
+    }
+</script>
+<input  type="text" id="txt1" value="" >
+<input  type="button" id="btn1" value="Fact" onclick="btn1_onclick();"><br>
+Result:<label id="lblResult">0</label>
+<br>
+<div id="div1" style="background-color: blue;width: 500px;height: 500px; ">
+    <div id="div2" style="background-color: red; width: 20px;height: 20px; left: 0px; top:0px ;position:relative;">
+
+    </div>
+</div>
+<input type="button" id="btnMove" value="Move" onclick="btnMove_onclick();">
